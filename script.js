@@ -355,6 +355,7 @@ function startPlayback() {
 }
 
 function setPlaybackSpeed(nextSpeed) {
+  if (nextSpeed === playbackSpeed) return;
   playbackSpeed = nextSpeed;
 
   if (playbackTimer) {
@@ -900,6 +901,12 @@ function applyState(state) {
 
   if (replayMode && (state.running || state.countdown !== null)) stopReplay();
   if ((combatStarted || countdownStarted) && testCells) clearTestMode();
+
+  // The host already receives snapshots on the simulation's clock.
+  if (playerId !== null && state.hostId === playerId) {
+    applyDisplayedState(state);
+    return;
+  }
 
   setPlaybackSpeed(Number(state.speed));
 
