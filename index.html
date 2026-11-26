@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Conway's Game of Life</title>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=sidebar">
   </head>
   <body>
     <main class="app" aria-label="Conway's Game of Life">
@@ -28,69 +28,73 @@
           </div>
         </header>
 
-        <section class="room-panel" aria-label="Multiplayer room">
-          <div id="room-lobby" class="room-toolbar">
-            <button id="create-room" type="button">Create room</button>
-            <form id="join-room" class="room-toolbar">
-              <label for="room-code">Room code</label>
-              <input id="room-code" type="text" maxlength="10" autocomplete="off" spellcheck="false" required>
-              <button id="join-button" type="submit">Join room</button>
-            </form>
+        <div class="game-layout">
+          <div class="board-frame" data-view="full" aria-label="Board color regions">
+            <button class="border-zone border-zone-top border-zone-left red" type="button" data-quarter="red" aria-label="Show red quarter"></button>
+            <button class="border-zone border-zone-top border-zone-right blue" type="button" data-quarter="blue" aria-label="Show blue quarter"></button>
+            <button class="border-zone border-zone-bottom border-zone-left purple" type="button" data-quarter="purple" aria-label="Show purple quarter"></button>
+            <button class="border-zone border-zone-bottom border-zone-right green" type="button" data-quarter="green" aria-label="Show green quarter"></button>
+            <button class="border-zone border-zone-left-side border-zone-top-half red" type="button" data-quarter="red" aria-label="Show red quarter"></button>
+            <button class="border-zone border-zone-left-side border-zone-bottom-half purple" type="button" data-quarter="purple" aria-label="Show purple quarter"></button>
+            <button class="border-zone border-zone-right-side border-zone-top-half blue" type="button" data-quarter="blue" aria-label="Show blue quarter"></button>
+            <button class="border-zone border-zone-right-side border-zone-bottom-half green" type="button" data-quarter="green" aria-label="Show green quarter"></button>
+            <div id="board" class="board" role="grid" aria-label="64 by 64 game board"></div>
           </div>
-          <div id="room-session" class="room-toolbar" hidden>
-            <label for="room-invite">Room code</label>
-            <input id="room-invite" type="text" readonly>
-            <button id="copy-invite" type="button">Copy invite link</button>
-            <button id="leave-room" type="button">Leave room</button>
-          </div>
-        </section>
 
-        <div class="board-frame" data-view="full" aria-label="Board color regions">
-          <button class="border-zone border-zone-top border-zone-left red" type="button" data-quarter="red" aria-label="Show red quarter"></button>
-          <button class="border-zone border-zone-top border-zone-right blue" type="button" data-quarter="blue" aria-label="Show blue quarter"></button>
-          <button class="border-zone border-zone-bottom border-zone-left purple" type="button" data-quarter="purple" aria-label="Show purple quarter"></button>
-          <button class="border-zone border-zone-bottom border-zone-right green" type="button" data-quarter="green" aria-label="Show green quarter"></button>
-          <button class="border-zone border-zone-left-side border-zone-top-half red" type="button" data-quarter="red" aria-label="Show red quarter"></button>
-          <button class="border-zone border-zone-left-side border-zone-bottom-half purple" type="button" data-quarter="purple" aria-label="Show purple quarter"></button>
-          <button class="border-zone border-zone-right-side border-zone-top-half blue" type="button" data-quarter="blue" aria-label="Show blue quarter"></button>
-          <button class="border-zone border-zone-right-side border-zone-bottom-half green" type="button" data-quarter="green" aria-label="Show green quarter"></button>
-          <div id="board" class="board" role="grid" aria-label="64 by 64 game board"></div>
+          <aside class="game-sidebar" aria-label="Game and room controls">
+            <section class="room-panel" aria-label="Multiplayer room">
+              <div id="room-lobby" class="room-toolbar">
+                <button id="create-room" type="button">Create room</button>
+                <form id="join-room" class="room-toolbar">
+                  <label for="room-code">Room code</label>
+                  <input id="room-code" type="text" maxlength="10" autocomplete="off" spellcheck="false" required>
+                  <button id="join-button" type="submit">Join room</button>
+                </form>
+              </div>
+              <div id="room-session" class="room-toolbar" hidden>
+                <label for="room-invite">Room code</label>
+                <input id="room-invite" type="text" readonly>
+                <button id="copy-invite" type="button">Copy invite link</button>
+                <button id="leave-room" type="button">Leave room</button>
+              </div>
+            </section>
+
+            <div class="controls" aria-label="Game controls" hidden>
+              <button id="toggle" type="button">Start</button>
+              <button id="step" type="button">Step</button>
+              <button id="randomize" type="button">Randomize</button>
+            </div>
+
+            <div class="test-controls" aria-label="Design test controls">
+              <button id="test" type="button">Test</button>
+              <button id="reset-test" type="button" disabled>Reset</button>
+              <button id="clear" type="button">Clear</button>
+            </div>
+
+            <div class="replay-controls" aria-label="Replay controls">
+              <button id="replay" type="button" disabled>Replay</button>
+              <button id="replay-prev" type="button" disabled>Back</button>
+              <button id="replay-next" type="button" disabled>Forward</button>
+              <span id="replay-status">No replay</span>
+            </div>
+
+            <label class="speed" hidden>
+              Speed
+              <input id="speed" type="range" min="80" max="800" step="20" value="240">
+            </label>
+
+            <label class="grid-size-control" hidden>
+              Corner width
+              <input id="corner-width" type="number" min="1" max="128" step="1" value="32">
+            </label>
+
+            <section class="cheat-sheet" aria-label="Pattern cheat-sheet">
+              <h2>Patterns</h2>
+              <div id="pattern-list" class="pattern-list"></div>
+              <p id="copy-status" class="copy-status">No pattern copied</p>
+            </section>
+          </aside>
         </div>
-
-        <div class="controls" aria-label="Game controls" hidden>
-          <button id="toggle" type="button">Start</button>
-          <button id="step" type="button">Step</button>
-          <button id="randomize" type="button">Randomize</button>
-        </div>
-
-        <div class="test-controls" aria-label="Design test controls">
-          <button id="test" type="button">Test</button>
-          <button id="reset-test" type="button" disabled>Reset</button>
-          <button id="clear" type="button">Clear</button>
-        </div>
-
-        <div class="replay-controls" aria-label="Replay controls">
-          <button id="replay" type="button" disabled>Replay</button>
-          <button id="replay-prev" type="button" disabled>Back</button>
-          <button id="replay-next" type="button" disabled>Forward</button>
-          <span id="replay-status">No replay</span>
-        </div>
-
-        <label class="speed" hidden>
-          Speed
-          <input id="speed" type="range" min="80" max="800" step="20" value="240">
-        </label>
-
-        <label class="grid-size-control" hidden>
-          Corner width
-          <input id="corner-width" type="number" min="1" max="128" step="1" value="32">
-        </label>
-
-        <section class="cheat-sheet" aria-label="Pattern cheat-sheet">
-          <h2>Patterns</h2>
-          <div id="pattern-list" class="pattern-list"></div>
-          <p id="copy-status" class="copy-status">No pattern copied</p>
-        </section>
       </section>
     </main>
 

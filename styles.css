@@ -41,7 +41,19 @@ input {
 }
 
 .workspace {
-  width: min(92vw, 760px);
+  width: min(100%, 976px);
+  min-width: 0;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: 16px;
+}
+
+.game-sidebar {
+  min-width: 0;
 }
 
 .countdown-overlay {
@@ -89,7 +101,6 @@ p {
 }
 
 .room-panel {
-  margin-bottom: 18px;
   border: 1px solid var(--line);
   background: rgba(5, 5, 5, 0.92);
   padding: 12px 14px;
@@ -208,7 +219,8 @@ p {
 .board-frame {
   position: relative;
   display: grid;
-  width: min(92vw, 640px);
+  width: 100%;
+  max-width: 640px;
   aspect-ratio: 1;
   padding: 8px;
   background:
@@ -448,7 +460,7 @@ p {
 }
 
 .replay-controls {
-  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: center;
 }
 
@@ -493,6 +505,7 @@ p {
 }
 
 .replay-controls span {
+  grid-column: 1 / -1;
   min-width: 130px;
   color: var(--muted);
   font-family: "Press Start 2P", "Ubuntu", sans-serif;
@@ -600,6 +613,12 @@ p {
   font-size: 8px;
   line-height: 1.45;
   text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .game-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 560px) {
